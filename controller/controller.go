@@ -60,17 +60,17 @@ func GetAllTasksCont(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, gin.H{"Tasks": tasks})
 }
 
-func DeleteTaskByIdCont(c *gin.Context){
+func DeleteTaskByIdCont(c *gin.Context) {
 	var id = c.Param("id")
 
-	if err:=services.DeleteTaskById(id); err!=nil{
+	if err := services.DeleteTaskById(id); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{
-			"error" : "failed to delete the task id"+id,
-			"cause" : err.Error(),
+			"error": "failed to delete the task id" + id,
+			"cause": err.Error(),
 		})
-		return 
+		return
 	}
-	c.IndentedJSON(http.StatusOK, gin.H{"success" : "task deleted"})
+	c.IndentedJSON(http.StatusOK, gin.H{"success": "task deleted"})
 }
 
 func UpdateTaskByIdCont(c *gin.Context) {
@@ -79,7 +79,7 @@ func UpdateTaskByIdCont(c *gin.Context) {
 	var payload models.TaskUpdatePayload
 	if err := c.ShouldBindJSON(&payload); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "invalid JSON",
+			"error": "invalid JSON dummy ",
 			"cause": err.Error(),
 		})
 		return
@@ -96,5 +96,5 @@ func UpdateTaskByIdCont(c *gin.Context) {
 
 	task, err := services.GetTaskById(id)
 
-	c.JSON(http.StatusOK, gin.H{"sucess":task})
+	c.JSON(http.StatusOK, gin.H{"sucess": task})
 }
