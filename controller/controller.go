@@ -2,6 +2,7 @@ package controller
 
 import (
 	_ "encoding/json"
+	"mv/mvto-do/loggerconfig"
 	"mv/mvto-do/apihelpers"
 	"mv/mvto-do/models"
 	"mv/mvto-do/services"
@@ -29,11 +30,13 @@ func Ping(c *gin.Context) {
 }
 
 func CreateTask(c *gin.Context) {
+	loggerconfig.Info("CreateTask called")
 	var response apihelpers.APIRes
 
 	var payload models.Task
 
 	if err := c.ShouldBindJSON(&payload); err != nil {
+		loggerconfig.Info("Invalid JSON payload:", err)
 		response = apihelpers.APIRes{
 			Status : false,
 			Message : "could not read data",
