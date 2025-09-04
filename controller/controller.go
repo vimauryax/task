@@ -2,6 +2,7 @@ package controller
 
 import (
 	_ "encoding/json"
+	"mv/mvto-do/apihelpers"
 	"mv/mvto-do/models"
 	"mv/mvto-do/services"
 	"net/http"
@@ -10,91 +11,150 @@ import (
 )
 
 func Ping(c *gin.Context) {
-	c.IndentedJSON(200, gin.H{"success": "connected!"})
+	
+	response := apihelpers.APIRes{
+		Status : true,
+			Message : "success",
+			Code : "200",
+			Data :  map[string]interface{}{ 
+				"success": "connected",
+			},
+	}
+	apihelpers.CustomResponse(c, 200, response)
 }
 
 func CreateTask(c *gin.Context) {
+	var response apihelpers.APIRes
+
 	var payload models.Task
 
 	if err := c.ShouldBindJSON(&payload); err != nil {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{
-			"error": "failed to fetch the payload",
-			"cause": err.Error(),
-		})
+		response = apihelpers.APIRes{
+			Status : false,
+			Message : "could not read data",
+			Code : "400",
+			Data :  map[string]interface{}{ 
+				"error": "bad request",
+			},
+		}
+
+		apihelpers.CustomResponse(c, http.StatusBadRequest, response)
 		return
 	}
 
 	if err := services.SaveTask(payload); err != nil {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "failed to save the task in the database"})
+		apihelpers.SendInternalServerError()
 		return
 	}
-	c.IndentedJSON(http.StatusCreated, gin.H{"success": "task created"})
+	
+	response = apihelpers.APIRes{
+		Status : true,
+			Message : "success",
+			Code : "200",
+			Data :  map[string]interface{}{ 
+				"success": "task created",
+			},
+	}
+	apihelpers.CustomResponse(c, 201, response)
 }
 
 func GetTaskByIdCont(c *gin.Context) {
 	var id = c.Param("id")
+	var response apihelpers.APIRes
 
 	task, err := services.GetTaskById(id)
 
 	if err != nil {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{
-			"error": "failed to fetch task by id",
-			"cause": err.Error(),
-		})
+		apihelpers.SendInternalServerError()
 		return
 	}
-	c.IndentedJSON(http.StatusOK, gin.H{"TASK": task})
+	response = apihelpers.APIRes{
+		Status : true,
+			Message : "success",
+			Code : "200",
+			Data :  map[string]interface{}{ 
+				"task": task,
+			},
+	}
+	apihelpers.CustomResponse(c, 200, response)
 }
 
 func GetAllTasksCont(c *gin.Context) {
 	tasks, err := services.GetAllTasks()
 
+	var response apihelpers.APIRes
+
 	if err != nil {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{
-			"error": "failed to fetch all tasks",
-			"cause": err.Error(),
-		})
+		apihelpers.SendInternalServerError()
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, gin.H{"Tasks": tasks})
+	
+	response = apihelpers.APIRes{
+		Status : true,
+			Message : "success",
+			Code : "200",
+			Data :  map[string]interface{}{ 
+				"tasks": tasks,
+			},
+	}
+	apihelpers.CustomResponse(c, 200, response)
 }
 
 func DeleteTaskByIdCont(c *gin.Context) {
 	var id = c.Param("id")
+	var response apihelpers.APIRes
 
 	if err := services.DeleteTaskById(id); err != nil {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{
-			"error": "failed to delete the task id" + id,
-			"cause": err.Error(),
-		})
+		apihelpers.SendInternalServerError()
 		return
 	}
-	c.IndentedJSON(http.StatusOK, gin.H{"success": "task deleted"})
+
+	response = apihelpers.APIRes{
+		Status : true,
+			Message : "success",
+			Code : "200",
+			Data :  map[string]interface{}{ 
+				"success": "task deleted",
+			},
+	}
+	apihelpers.CustomResponse(c, 200, response)
 }
 
 func UpdateTaskByIdCont(c *gin.Context) {
 	id := c.Param("id")
 
+	var response apihelpers.APIRes
 	var payload models.TaskUpdatePayload
 	if err := c.ShouldBindJSON(&payload); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "invalid JSON",
-			"cause": err.Error(),
-		})
+		response = apihelpers.APIRes{
+			Status : false,
+			Message : "invalid json",
+			Code : "400",
+			Data :  map[string]interface{}{ 
+				"error": "bad request",
+			},
+		}
+		
+		apihelpers.CustomResponse(c, http.StatusBadRequest, response)
 		return
 	}
 
 	err := services.UpdateTaskById(payload, id)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "failed to update task",
-			"cause": err.Error(),
-		})
+		apihelpers.SendInternalServerError()
 		return
 	}
 
-	task, err := services.GetTaskById(id)
+	task, _ := services.GetTaskById(id)
 
-	c.JSON(http.StatusOK, gin.H{"sucess": task})
+	response = apihelpers.APIRes{
+		Status : true,
+			Message : "success",
+			Code : "200",
+			Data :  map[string]interface{}{ 
+				"task": task,
+			},
+	}
+	apihelpers.CustomResponse(c, 200, response)
 }
