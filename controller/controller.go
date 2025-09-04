@@ -20,7 +20,7 @@ func Ping(c *gin.Context) {
 	response = apihelpers.APIRes{
 		Status : true,
 			Message : "success",
-			ErrorCode : "200",
+			ErrorCode : "nil",
 			Data :  map[string]interface{}{ 
 				"success": "connected",
 			},
@@ -55,7 +55,7 @@ func CreateTask(c *gin.Context) {
 	response = apihelpers.APIRes{
 		Status : true,
 			Message : "success",
-			ErrorCode : "200",
+			ErrorCode : "nil",
 			Data :  map[string]interface{}{ 
 				"success": "task created",
 			},
@@ -76,7 +76,7 @@ func GetTaskByIdCont(c *gin.Context) {
 	response = apihelpers.APIRes{
 		Status : true,
 			Message : "success",
-			ErrorCode : "200",
+			ErrorCode : "nil",
 			Data :  map[string]interface{}{ 
 				"task": task,
 			},
@@ -98,7 +98,7 @@ func GetAllTasksCont(c *gin.Context) {
 	response = apihelpers.APIRes{
 		Status : true,
 			Message : "success",
-			ErrorCode : "200",
+			ErrorCode : "nil",
 			Data :  map[string]interface{}{ 
 				"tasks": tasks,
 			},
@@ -118,7 +118,7 @@ func DeleteTaskByIdCont(c *gin.Context) {
 	response = apihelpers.APIRes{
 		Status : true,
 			Message : "success",
-			ErrorCode : "200",
+			ErrorCode : "nil",
 			Data :  map[string]interface{}{ 
 				"success": "task deleted",
 			},
@@ -156,7 +156,7 @@ func UpdateTaskByIdCont(c *gin.Context) {
 	response = apihelpers.APIRes{
 		Status : true,
 			Message : "success",
-			ErrorCode : "200",
+			ErrorCode : "nil",
 			Data :  map[string]interface{}{ 
 				"task": task,
 			},
