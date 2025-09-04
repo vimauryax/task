@@ -9,6 +9,10 @@ import (
 )
 var ctx context.Context
 
+func Ping() error{
+	return nil
+}
+
 func SaveTask(payload models.Task) error {
 	task := models.Task{
 		Title:          payload.Title,
