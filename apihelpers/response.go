@@ -14,7 +14,7 @@ import (
 type APIRes struct {
 	Status    bool        `json:"status"`
 	Message   string      `json:"message"`
-	Code string      `json:"code"`
+	ErrorCode string      `json:"errorcode"`
 	Data      interface{} `json:"data"`
 }
 
@@ -22,7 +22,7 @@ func SendInternalServerError() (int, APIRes) {
 	var apiRes APIRes
 	apiRes.Status = false
 	apiRes.Message = constants.ErrorCodeMap[constants.InternalServerError]
-	apiRes.Code = constants.InternalServerError
+	apiRes.ErrorCode = constants.InternalServerError
 	return http.StatusInternalServerError, apiRes
 }
 

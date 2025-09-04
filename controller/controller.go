@@ -11,11 +11,16 @@ import (
 )
 
 func Ping(c *gin.Context) {
-	
-	response := apihelpers.APIRes{
+	var response apihelpers.APIRes
+
+	if err := services.Ping(); err!=nil{
+		apihelpers.SendInternalServerError()
+		return 
+	}
+	response = apihelpers.APIRes{
 		Status : true,
 			Message : "success",
-			Code : "200",
+			ErrorCode : "200",
 			Data :  map[string]interface{}{ 
 				"success": "connected",
 			},
@@ -32,7 +37,7 @@ func CreateTask(c *gin.Context) {
 		response = apihelpers.APIRes{
 			Status : false,
 			Message : "could not read data",
-			Code : "400",
+			ErrorCode : "400",
 			Data :  map[string]interface{}{ 
 				"error": "bad request",
 			},
@@ -50,12 +55,12 @@ func CreateTask(c *gin.Context) {
 	response = apihelpers.APIRes{
 		Status : true,
 			Message : "success",
-			Code : "200",
+			ErrorCode : "200",
 			Data :  map[string]interface{}{ 
 				"success": "task created",
 			},
 	}
-	apihelpers.CustomResponse(c, 201, response)
+	apihelpers.CustomResponse(c, 200, response)
 }
 
 func GetTaskByIdCont(c *gin.Context) {
@@ -71,7 +76,7 @@ func GetTaskByIdCont(c *gin.Context) {
 	response = apihelpers.APIRes{
 		Status : true,
 			Message : "success",
-			Code : "200",
+			ErrorCode : "200",
 			Data :  map[string]interface{}{ 
 				"task": task,
 			},
@@ -93,7 +98,7 @@ func GetAllTasksCont(c *gin.Context) {
 	response = apihelpers.APIRes{
 		Status : true,
 			Message : "success",
-			Code : "200",
+			ErrorCode : "200",
 			Data :  map[string]interface{}{ 
 				"tasks": tasks,
 			},
@@ -113,7 +118,7 @@ func DeleteTaskByIdCont(c *gin.Context) {
 	response = apihelpers.APIRes{
 		Status : true,
 			Message : "success",
-			Code : "200",
+			ErrorCode : "200",
 			Data :  map[string]interface{}{ 
 				"success": "task deleted",
 			},
@@ -130,7 +135,7 @@ func UpdateTaskByIdCont(c *gin.Context) {
 		response = apihelpers.APIRes{
 			Status : false,
 			Message : "invalid json",
-			Code : "400",
+			ErrorCode : "400",
 			Data :  map[string]interface{}{ 
 				"error": "bad request",
 			},
@@ -151,7 +156,7 @@ func UpdateTaskByIdCont(c *gin.Context) {
 	response = apihelpers.APIRes{
 		Status : true,
 			Message : "success",
-			Code : "200",
+			ErrorCode : "200",
 			Data :  map[string]interface{}{ 
 				"task": task,
 			},
