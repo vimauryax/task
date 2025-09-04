@@ -79,7 +79,7 @@ func UpdateTaskByIdCont(c *gin.Context) {
 	var payload models.TaskUpdatePayload
 	if err := c.ShouldBindJSON(&payload); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "invalid JSON dummy ",
+			"error": "invalid JSON",
 			"cause": err.Error(),
 		})
 		return
