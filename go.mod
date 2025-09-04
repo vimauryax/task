@@ -4,6 +4,8 @@ go 1.24.6
 
 require (
 	github.com/gin-gonic/gin v1.10.1
+	github.com/joho/godotenv v1.5.1
+	github.com/sirupsen/logrus v1.9.3
 	go.elastic.co/apm/module/apmlogrus v1.15.0
 	gorm.io/driver/postgres v1.6.0
 	gorm.io/gorm v1.30.2
@@ -52,7 +54,6 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
-	github.com/sirupsen/logrus v1.9.3
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.12 // indirect
 	go.elastic.co/apm v1.15.0
