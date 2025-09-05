@@ -1,0 +1,96 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api/task/all": {
+            "get": {
+                "description": "Create Task",
+                "tags": [
+                    "space cmots V2"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/apihelpers.APIRes"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Task"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/apihelpers.APIRes"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "apihelpers.APIRes": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "errorcode": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "models.Task": {
+            "type": "object",
+            "required": [
+                "status",
+                "timestampBegin",
+                "timestampEnd",
+                "title"
+            ],
+            "properties": {
+                "desc": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "pending",
+                        "done",
+                        "outdated"
+                    ]
+                },
+                "timestampBegin": {
+                    "type": "string"
+                },
+                "timestampEnd": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
