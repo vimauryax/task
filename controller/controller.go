@@ -29,7 +29,7 @@ func Ping(c *gin.Context) {
 	}
 
 	loggerconfig.Info("Ping (controller) - Ping successful!")
-	apihelpers.CustomResponse(c, 200, response)
+	apihelpers.CustomResponse(c, http.StatusOK, response)
 }
 
 func CreateTask(c *gin.Context) {
@@ -68,7 +68,7 @@ func CreateTask(c *gin.Context) {
 				"success": "task created",
 			},
 	}
-	apihelpers.CustomResponse(c, 200, response)
+	apihelpers.CustomResponse(c, http.StatusOK, response)
 }
 
 func GetTaskByIdCont(c *gin.Context) {
@@ -92,7 +92,7 @@ func GetTaskByIdCont(c *gin.Context) {
 			},
 	}
 	loggerconfig.Info("GetTaskById (controller) - fetched task from database")
-	apihelpers.CustomResponse(c, 200, response)
+	apihelpers.CustomResponse(c, http.StatusOK, response)
 }
 
 // @Tags space cmots V2
@@ -123,7 +123,7 @@ func GetAllTasksCont(c *gin.Context) {
 			},
 	}
 	loggerconfig.Info("GetAllTasks (controller) - fetched all tasks from database")
-	apihelpers.CustomResponse(c, 200, response)
+	apihelpers.CustomResponse(c, http.StatusOK, response)
 }
 
 func DeleteTaskByIdCont(c *gin.Context) {
@@ -146,7 +146,7 @@ func DeleteTaskByIdCont(c *gin.Context) {
 	}
 
 	loggerconfig.Info("DeleteTaskById (controller) - Deleted task from database with id : "+id)
-	apihelpers.CustomResponse(c, 200, response)
+	apihelpers.CustomResponse(c, http.StatusOK, response)
 }
 
 func UpdateTaskByIdCont(c *gin.Context) {
@@ -189,5 +189,5 @@ func UpdateTaskByIdCont(c *gin.Context) {
 	}
 
 	loggerconfig.Info("UpdateTaskById (controller) - updated task in database with id : "+id)
-	apihelpers.CustomResponse(c, 200, response)
+	apihelpers.CustomResponse(c, http.StatusOK, response)
 }

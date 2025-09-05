@@ -8,10 +8,12 @@ import (
 	"mv/mvto-do/config"
 	"github.com/joho/godotenv"
 	"os"
+	"mv/mvto-do/loggerconfig"
 )
 
 
 func main(){
+	loggerconfig.LogrusInitialize()
 	err := godotenv.Load(".env")
 
 	if err!=nil{
@@ -22,10 +24,14 @@ func main(){
 	environment := os.Getenv("GO_ENV")
 
 	if environment == "local"{
-		fmt.Println("Running in the local environment")
+		fmt.Println("Running in local environment")
+	} else if environment == "prod"{
+		fmt.Println("Running in prod environment")
+	} else {
+		fmt.Println("Select the right environment")
 	}
 
-	config.InitPostgresDBGorm()
+	config.InitPostgresDBGorm(environment)
 
 	r := gin.Default()
 

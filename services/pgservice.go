@@ -8,7 +8,7 @@ import (
 	"mv/mvto-do/models"
 	"mv/mvto-do/loggerconfig"
 )
-var ctx context.Context
+var ctx = context.Background()
 
 func Ping() error{
 	return nil
