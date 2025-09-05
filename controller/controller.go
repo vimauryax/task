@@ -11,6 +11,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+
+// @Summary Test connection to the server
+// @Description Ping
+// @Success 200 {object} apihelpers.APIRes{data=map[string]string}
+// @Failure 500 {object} apihelpers.APIRes
+// @Router /task/ping [get]
 func Ping(c *gin.Context) {
 	var response apihelpers.APIRes
 
@@ -32,6 +38,15 @@ func Ping(c *gin.Context) {
 	apihelpers.CustomResponse(c, http.StatusOK, response)
 }
 
+// @Summary Create a new task
+// @Description Create Task
+// @Accept json
+// @Produce json
+// @Param task body models.Task true "Task Payload"
+// @Success 200 {object} apihelpers.APIRes{data=map[string]interface{}}
+// @Failure 400 {object} apihelpers.APIRes
+// @Failure 500 {object} apihelpers.APIRes
+// @Router /task/new [POST]
 func CreateTask(c *gin.Context) {
 	var response apihelpers.APIRes
 
@@ -71,6 +86,13 @@ func CreateTask(c *gin.Context) {
 	apihelpers.CustomResponse(c, http.StatusOK, response)
 }
 
+// @Summary Fetch task by id
+// @Description Fetch task by id
+// @Param id path string true "Task ID"
+// @Success 200 {object} apihelpers.APIRes{data=map[string]interface{}}
+// @Failure 400 {object} apihelpers.APIRes
+// @Failure 500 {object} apihelpers.APIRes
+// @Router /task/{id} [get]
 func GetTaskByIdCont(c *gin.Context) {
 	var id = c.Param("id")
 	var response apihelpers.APIRes
@@ -95,11 +117,11 @@ func GetTaskByIdCont(c *gin.Context) {
 	apihelpers.CustomResponse(c, http.StatusOK, response)
 }
 
-// @Tags space cmots V2
-// @Description Create Task
-// @Success 200 {object} apihelpers.APIRes{data=[]models.Task}
+// @Summary Fetch all tasks
+// @Description Get All Tasks
+// @Success 200 {object} apihelpers.APIRes{data=map[string][]models.Task}
 // @Failure 400 {object} apihelpers.APIRes
-// @Router /api/task/all [GET]
+// @Router /task/all [get]
 func GetAllTasksCont(c *gin.Context) {
 
 	loggerconfig.Info("GetAllTasks (controller) - fetching all tasks from database")
@@ -126,6 +148,13 @@ func GetAllTasksCont(c *gin.Context) {
 	apihelpers.CustomResponse(c, http.StatusOK, response)
 }
 
+// @Summary Delete task by id
+// @Description Delete Task
+// @Param id path string true "Task ID"
+// @Success 200 {object} apihelpers.APIRes{data=map[string]interface{}}
+// @Failure 400 {object} apihelpers.APIRes
+// @Failure 500 {object} apihelpers.APIRes
+// @Router /task/{id} [delete]
 func DeleteTaskByIdCont(c *gin.Context) {
 	var id = c.Param("id")
 	var response apihelpers.APIRes
@@ -149,6 +178,14 @@ func DeleteTaskByIdCont(c *gin.Context) {
 	apihelpers.CustomResponse(c, http.StatusOK, response)
 }
 
+// @Summary Update task by id
+// @Description Update Task
+// @Param id path string true "Task ID"
+// @Param task body models.TaskUpdatePayload true "Update Task Payload"
+// @Success 200 {object} apihelpers.APIRes{data=map[string]interface{}}
+// @Failure 400 {object} apihelpers.APIRes
+// @Failure 500 {object} apihelpers.APIRes
+// @Router /task/{id} [patch]
 func UpdateTaskByIdCont(c *gin.Context) {
 	id := c.Param("id")
 
