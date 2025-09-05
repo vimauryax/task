@@ -23,7 +23,7 @@ func SaveTask(payload models.Task) error {
 		Status:         payload.Status,
 	}
 
-	loggerconfig.Info("saving data in the database - SaveTask (services)")
+	loggerconfig.Info("SaveTask (services) - saving data in the database")
 	result := config.DB.WithContext(ctx).Create(&task) 
 	
 	return result.Error
@@ -32,7 +32,7 @@ func SaveTask(payload models.Task) error {
 func GetTaskById(id string) (*models.Task, error){
 	var task models.Task
 
-	loggerconfig.Info("fetching task from database - GetTaskById (services)")
+	loggerconfig.Info("GetTaskById (services) - fetching task from database")
 	result := config.DB.WithContext(ctx).Where("id = ?", id).First(&task)
 
 	return &task, result.Error
@@ -41,7 +41,7 @@ func GetTaskById(id string) (*models.Task, error){
 func GetAllTasks() (*[]models.Task, error){
 	var tasks []models.Task
 
-	loggerconfig.Info("fetching all tasks from database - GetAllTasks (services)")
+	loggerconfig.Info("GetAllTasks (services) - fetching all tasks from database")
 	result := config.DB.WithContext(ctx).Find(&tasks)
 
 	return &tasks, result.Error
@@ -50,7 +50,7 @@ func GetAllTasks() (*[]models.Task, error){
 func DeleteTaskById(id string) error{
 	var task models.Task
 
-	loggerconfig.Info("deleting task from database with id : "+id+" - DeleteTaskById (services)")
+	loggerconfig.Info("DeleteTaskById (services) - deleting task from database with id : "+id)
 	result := config.DB.WithContext(ctx).Where("id = ?", id).Delete(&task)
 	return result.Error
 }
@@ -72,7 +72,7 @@ func UpdateTaskById(payload models.TaskUpdatePayload, id string) error {
 	}
 
 	if len(updates) == 0 {
-		loggerconfig.Info("no fields to update - UpdateTaskById (services)")
+		loggerconfig.Info("UpdateTaskById (services) - no fields to update")
 		return errors.New("no fields to update")
 	}
 
@@ -82,11 +82,11 @@ func UpdateTaskById(payload models.TaskUpdatePayload, id string) error {
 		Updates(updates)
 
 	if result.Error != nil {
-		loggerconfig.Info("failed to update in the database")
+		loggerconfig.Info("UpdateTaskById (services) - failed to update in the database")
 		return result.Error
 	}
 	if result.RowsAffected == 0 {
-		loggerconfig.Info("0 rows affected.")
+		loggerconfig.Info("UpdateTaskById (services) - 0 rows affected.")
 		return errors.New("failed to update fields")
 	}
 
