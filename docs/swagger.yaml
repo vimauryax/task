@@ -33,12 +33,29 @@ definitions:
     - timestampEnd
     - title
     type: object
+  models.TaskUpdatePayload:
+    properties:
+      desc:
+        type: string
+      status:
+        type: string
+      timestampEnd:
+        type: string
+      title:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
-  /api/task/all:
-    get:
-      description: Create Task
+  /task/{id}:
+    delete:
+      description: Delete Task
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: string
       responses:
         "200":
           description: OK
@@ -47,14 +64,154 @@ paths:
             - $ref: '#/definitions/apihelpers.APIRes'
             - properties:
                 data:
-                  items:
-                    $ref: '#/definitions/models.Task'
-                  type: array
+                  additionalProperties: true
+                  type: object
               type: object
         "400":
           description: Bad Request
           schema:
             $ref: '#/definitions/apihelpers.APIRes'
-      tags:
-      - space cmots V2
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apihelpers.APIRes'
+      summary: Delete task by id
+    get:
+      description: Fetch task by id
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/apihelpers.APIRes'
+            - properties:
+                data:
+                  additionalProperties: true
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/apihelpers.APIRes'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apihelpers.APIRes'
+      summary: Fetch task by id
+    patch:
+      description: Update Task
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Task Payload
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/models.TaskUpdatePayload'
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/apihelpers.APIRes'
+            - properties:
+                data:
+                  additionalProperties: true
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/apihelpers.APIRes'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apihelpers.APIRes'
+      summary: Update task by id
+  /task/all:
+    get:
+      description: Get All Tasks
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/apihelpers.APIRes'
+            - properties:
+                data:
+                  additionalProperties:
+                    items:
+                      $ref: '#/definitions/models.Task'
+                    type: array
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/apihelpers.APIRes'
+      summary: Fetch all tasks
+  /task/new:
+    post:
+      consumes:
+      - application/json
+      description: Create Task
+      parameters:
+      - description: Task Payload
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/models.Task'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/apihelpers.APIRes'
+            - properties:
+                data:
+                  additionalProperties: true
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/apihelpers.APIRes'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apihelpers.APIRes'
+      summary: Create a new task
+  /task/ping:
+    get:
+      description: Ping
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/apihelpers.APIRes'
+            - properties:
+                data:
+                  additionalProperties:
+                    type: string
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apihelpers.APIRes'
+      summary: Test connection to the server
 swagger: "2.0"
