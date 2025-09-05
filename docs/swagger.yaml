@@ -1,0 +1,60 @@
+definitions:
+  apihelpers.APIRes:
+    properties:
+      data: {}
+      errorcode:
+        type: string
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+  models.Task:
+    properties:
+      desc:
+        type: string
+      id:
+        type: integer
+      status:
+        enum:
+        - pending
+        - done
+        - outdated
+        type: string
+      timestampBegin:
+        type: string
+      timestampEnd:
+        type: string
+      title:
+        type: string
+    required:
+    - status
+    - timestampBegin
+    - timestampEnd
+    - title
+    type: object
+info:
+  contact: {}
+paths:
+  /api/task/all:
+    get:
+      description: Create Task
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/apihelpers.APIRes'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Task'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/apihelpers.APIRes'
+      tags:
+      - space cmots V2
+swagger: "2.0"

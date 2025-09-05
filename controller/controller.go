@@ -95,6 +95,11 @@ func GetTaskByIdCont(c *gin.Context) {
 	apihelpers.CustomResponse(c, 200, response)
 }
 
+// @Tags space cmots V2
+// @Description Create Task
+// @Success 200 {object} apihelpers.APIRes{data=[]models.Task}
+// @Failure 400 {object} apihelpers.APIRes
+// @Router /api/task/all [GET]
 func GetAllTasksCont(c *gin.Context) {
 
 	loggerconfig.Info("GetAllTasks (controller) - fetching all tasks from database")
