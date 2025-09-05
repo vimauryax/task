@@ -10,10 +10,18 @@ import (
 
 var DB *gorm.DB
 
-func InitPostgresDBGorm(){
+func InitPostgresDBGorm(env string){
 	dsn := "host=localhost user=postgres password=tiger dbname=to-do port=5432 sslmode=disable"
+	dsn1 := "host=localhost user=postgres password=tiger dbname=to-do-prod port=5432 sslmode=disable"
 
-	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	var fdsn string
+
+	if env == "local"{
+		fdsn = dsn
+	} else if env == "prod"{
+		fdsn = dsn1
+	}
+	database, err := gorm.Open(postgres.Open(fdsn), &gorm.Config{})
 	if err!=nil{
 		fmt.Println("failed to connected to the database")
 	}
